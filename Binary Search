@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int binarySearch(vector<int> arr , int key){
+    int start=0;
+    int end=arr.size()-1;
+    while(start<=end){
+        int mid= (start + ((end-start)/2));
+        if(arr[mid] == key)
+            return mid;
+        else if(arr[mid] > key)
+            end=mid-1;
+        else
+            start=mid+1;
+    }
+    return -1;
+}
+
+int main(){
+    vector<int>arr;
+    int n,x,key;
+    cout<<"Enter the size of the array:";
+    cin>>n;
+    cout<<"The numbers are: ";
+    for(int i=0;i<n;i++){
+        cin>>x;
+        arr.push_back(x);
+    }
+    cout<<"Enter the number we need to find out:";
+    cin>>key;
+    int find= binarySearch(arr, key);
+    if(find == -1)
+        cout<<"The required number is not found.";
+    else
+        cout<<"The Required number is found at position "<< find+1;
+}
