@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int lowerBound(int arr[] , int key, int start, int end, int n){
+    int ans= n;
+    while(start<=end){
+        int mid= ((end+start)/2);
+        if(arr[mid] >= key){
+            ans=mid;
+            end=mid-1;
+        }
+        else
+            start=mid+1;
+    }
+    return ans;
+}
+
+int upperBound(int arr[] , int key, int start, int end,int n){
+    int ans= n;
+    while(start<=end){
+        int mid= ((end+start)/2);
+        if(arr[mid] > key){
+            ans=mid;
+            end=mid-1;
+        }
+        else
+            start=mid+1;
+    }
+    return ans;
+}
+
+int main(){
+    int key;
+    int arr[]={7,7,7,9,11,13,17,23,27,35};
+    int n=(sizeof(arr) / sizeof(arr[0]));
+    cout<<"Enter the number we need to find the Lower bound:";
+    cin>>key;
+    int start=0;
+    int end=n-1;
+    int findLb= lowerBound(arr, key, start, end,n);
+    int findUb= upperBound(arr, key, start, end,n);
+    cout<<" Lower bound: "<<findLb<<" Upper Bound: "<<findUb;
+}
