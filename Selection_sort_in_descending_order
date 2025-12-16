@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void selection_sort(vector<int> vec){
+    int large;
+    int n=vec.size();
+    for(int i=0;i<n-1;i++){
+        large=i;
+        for(int j=i+1;j<n;j++){
+            if(vec[j]>vec[large]){
+                large=j;
+            }
+        }
+        swap(vec[i],vec[large]);
+    }
+    for(int i=0;i<n;i++){
+        cout<<vec[i]<<" ";
+    }
+}
+int main(){
+    vector<int> vec;
+    int size,c;
+    cout<<"Size: ";
+    cin>> size;
+    for(int i=0;i<size;i++){
+        cin>>c;
+        vec.push_back(c);
+    }
+    selection_sort(vec);
+}
