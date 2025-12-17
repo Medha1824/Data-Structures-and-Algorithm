@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+void merge(vector<int>&vec,int start,int ends,int mid);
+
+void mergeSort(vector<int>&vec,int start,int ends){
+    if(start<ends){
+        int mid=((start+ends)/2);
+        mergeSort(vec,start,mid);
+        mergeSort(vec,mid+1,ends);
+        merge(vec,start,ends,mid);
+    }
+}
+void merge(vector<int>&vec,int start,int ends,int mid){
+    int i=start;
+    int j=mid+1;
+    int k=0;
+    int temp[ends-start+1];
+    while(i<=mid && j<=ends){
+        if(vec[i]>=vec[j]){     
+            temp[k]=vec[i];
+            i++;
+        }
+        else{
+            temp[k]=vec[j];
+            j++;
+        }
+        k++;
+    }
+    while(i<=mid){
+        temp[k]=vec[i];
+            i++;
+            k++;
+    }
+    while(j<=ends){
+        temp[k]=vec[j];
+            j++;
+            k++;
+    }
+    for(int x=0;x<k;x++){
+        vec[x+start]=temp[x];
+    }
+}
+int main()
+{
+    vector<int> vec;
+    int n,x;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        vec.push_back(x);
+    }
+    int start=0;
+    int ends=n-1;
+    mergeSort(vec,start,ends);
+
+    for(int i=0;i<n;i++){
+        cout<<vec[i]<<" ";
+    }
+}
