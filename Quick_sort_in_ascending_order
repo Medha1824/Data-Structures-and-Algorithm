@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int partition(vector<int>&vec, int start, int ends){
+    int i=start;
+    int j=ends;
+    int pivot=vec[start];
+    while(i<j){
+        while(vec[i]<=pivot){
+            i++;
+        }
+        while(vec[j]>pivot){
+            j--;
+        }
+        if(i<j)
+            swap(vec[i],vec[j]);
+    }
+    swap(vec[start],vec[j]);
+    return j;
+}
+
+void quickSort(vector<int>&vec, int start, int ends){
+    if(start<ends){
+        int pivotIdx=partition(vec,start, ends);
+        quickSort(vec,start,pivotIdx-1);
+        quickSort(vec,pivotIdx+1,ends);
+    }
+}
+
+int main()
+{
+    vector<int> vec;
+    int n,x;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        vec.push_back(x);
+    }
+    int start=0;
+    int ends=n-1;
+    quickSort(vec,start,ends);
+
+    for(int i=0;i<n;i++){
+        cout<<vec[i]<<" ";
+    }
+}
