@@ -1,3 +1,5 @@
+//For undirected graphs
+
 #include<bits/stdc++.h>
 using namespace std;
 
