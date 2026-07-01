@@ -1,0 +1,330 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int data;
+    node *prev;
+    node *next;
+};
+node *head=NULL;
+
+void insertFirst(int val){
+    node *temp;
+    temp=new node();
+    temp->data=val;
+    if(head==NULL){
+        temp->prev=temp;
+        temp->next=temp;
+        head=temp;
+    }
+    else{
+        node *last;
+        last=head->prev;
+
+        temp->next=head;
+        head->prev=temp;
+        temp->prev=last;
+        last->next=temp;
+        head=temp;
+    }
+}
+
+void insertLast(int val){
+    if(head==NULL)
+        insertFirst(val);
+    else{
+        node *temp;
+        temp=new node();
+        temp->data=val;
+        node *last=head->prev;
+        temp->next=head;
+        temp->prev=last;
+        last->next=temp;
+        head->prev=temp;
+    }
+}
+
+void insertAtPosition(int val,int pos){
+    if(pos==1){
+        insertFirst(val);
+    }
+    else{
+        node *temp;
+        temp=new node();
+        temp->data=val;
+        node *ptr=head;
+        int place=1;
+        while(place<pos-1 && ptr->next!=head ){
+            ptr=ptr->next;
+            place++;
+        }
+        if(ptr->next==head && place<pos-1)
+            cout<<"Invalid position"<<endl;
+        else{
+            temp->next=ptr->next;
+            temp->prev=ptr;
+            ptr->next->prev=temp;
+            ptr->next=temp;
+        }
+    }
+}
+
+void insertValue(int val){
+    if(head==0 || val<=head->data)
+        insertFirst(val);
+    else{
+        node *temp;
+        temp=new node();
+        temp->data=val;
+        node *ptr=head;
+        while(ptr->next !=head && val> ptr->next->data)
+            ptr=ptr->next;
+        temp->next=ptr->next;
+        temp->prev=ptr;
+        ptr->next->prev=temp;
+        ptr->next=temp;
+    }
+}
+
+void deleteFirst(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else if(head->next==head)
+        head=NULL;
+    else{
+        node *last=head->prev;
+        head=head->next;
+        head->prev=last;
+        last->next=head;
+        cout << "First node deletion completed"<<endl;
+
+    }
+}
+
+void deleteLast(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else if(head->next==head)
+        head=NULL;
+    else{
+        node *last=head->prev;
+        node *plast=last->prev;
+        plast->next=head;
+        head->prev=plast;
+        cout << "Last node deletion completed"<<endl;
+    }
+}
+
+void deleteAtPosition(int pos){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else if(pos==1)
+        deleteFirst();
+    else{
+        node *ptr=head;
+        node *ptr1=head;
+        for(int i=1; i<pos-1 && ptr->next !=head; i++)
+            ptr=ptr->next;
+        if(ptr->next==head)
+            cout<<"Invalid position"<<endl;
+        else{
+            ptr1=ptr->next;
+            ptr->next=ptr1->next;
+            ptr1->next->prev=ptr;
+            cout << "Deletion completed"<<endl;
+        }
+    }
+}
+
+void deleteValue(int val)
+{
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else if(val==head->data)
+        deleteFirst();
+    else{
+        node *ptr=head;
+        node *ptr1=head;
+        while(ptr->next !=head && val !=ptr->next->data)
+            ptr=ptr->next;
+        if(ptr->next==head)
+            cout<<"Invalid Value"<<endl;
+        else{
+            ptr1=ptr->next;
+            ptr->next=ptr1->next;
+            ptr1->next->prev=ptr;
+            cout << "Deletion completed"<<endl;
+        }
+    }
+}
+
+void printing(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else{
+        node *ptr=head;
+        do{
+            cout<<ptr->data<<" ";
+            ptr=ptr->next;
+        }while(ptr!=head);
+        cout<<endl;
+    }
+}
+
+void searching(int val){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else{
+        node *ptr=head;
+        do{
+            if(ptr->data == val){
+                cout<<"Found"<<endl;
+                return;
+            }
+            ptr=ptr->next;
+        }while(ptr!=head);
+        cout<<"Not Found"<<endl;
+    }
+}
+
+void last_node(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else{
+        node *ptr=head->prev;
+        cout<<ptr->data<<endl;
+    }
+}
+
+void previous_of_last_node(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else if(head->next==head)
+        cout<<"List's size is one"<<endl;
+    else{
+        node *ptr=head->prev;
+        node *ptr1=ptr->prev;
+        cout<<ptr1->data<<endl;
+    }
+}
+
+void list_size(){
+    int cnt=0;
+    if(head==NULL)
+        cout<<cnt<<endl;
+    else{
+    node *ptr=head;
+    do{
+        cnt++;
+        ptr=ptr->next;
+    }while(ptr!=head);
+    cout<<cnt<<endl;
+    }
+}
+
+void reversePrint(){
+    if(head==NULL)
+        cout<<"List is empty"<<endl;
+    else{
+        node *ptr=head->prev;
+        do{
+            cout<<ptr->data<<" ";
+            ptr=ptr->prev;
+        }while(ptr!=head->prev);
+        cout<<endl;
+    }
+}
+
+int main(){
+    int i,val,pos;
+    cout << "0. Exit\n";
+    cout << "1. Insert value at First\n";
+    cout << "2. Insert value at Last\n";
+    cout << "3. Insert value by Position\n";
+    cout << "4. Insert by Value\n";
+    cout << "5. Delete value at First\n";
+    cout << "6. Delete value at Last\n";
+    cout << "7. Delete value by Position\n";
+    cout << "8. Delete by Value\n";
+    cout << "9. Print the list\n";
+    cout << "10. Search a value\n";
+    cout << "11. Print the value of last node\n";
+    cout << "12. Print the previous value of last node\n";
+    cout << "13. Print the size of the List\n";
+    cout << "14. Reverse Print\n";
+    while(1){
+        cout<<"Enter your choice: ";
+        cin>>i;
+
+        if(i==0){
+            cout<<"Exiting the program......";
+            return 0;
+        }
+        else if(i==1){
+            cout << "Enter the value to insert at first: ";
+            cin >> val;
+            insertFirst(val);
+        }
+        else if(i==2){
+            cout << "Enter the value to insert at last: ";
+            cin >> val;
+            insertLast(val);
+
+        }
+        else if(i==3){
+            cout << "Enter the value and the position to insert: ";
+            cin >> val >> pos;
+            insertAtPosition(val,pos);
+        }
+        else if(i==4){
+            cout << "Enter the value to insert: ";
+            cin >> val;
+            insertValue(val);
+        }
+        else if(i==5){
+            deleteFirst();
+        }
+        else if(i==6){
+            deleteLast();
+        }
+        else if(i==7){
+            cout << "Enter the position to delete node: ";
+            cin >> pos;
+            deleteAtPosition(pos);
+        }
+        else if(i==8){
+            cout << "Enter the value of node to delete: ";
+            cin >> val;
+            deleteValue(val);
+        }
+        else if(i==9){
+            cout<<"The list: ";
+            printing();
+        }
+        else if(i==10){
+            cout << "Enter value to search: ";
+            cin >> val;
+            searching(val);
+        }
+        else if(i==11){
+            cout<<"The last node: ";
+            last_node();
+        }
+        else if(i==12){
+            cout<<"The second last node: ";
+            previous_of_last_node();
+        }
+        else if(i==13){
+            cout<<"The list size: ";
+            list_size();
+        }
+        else if(i==14){
+            cout<<"The reverse list: ";
+            reversePrint();
+        }
+        else{
+            cout<<"Invalid choice.....\nTry again....."<<endl;
+        }
+    }
+    return 0;
+}

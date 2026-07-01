@@ -1,0 +1,21 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int countSetBits(int n){
+    int cnt=0;
+    while (n!=0){
+        cnt +=(n&1);            //if(n%2==1) and if(n&1==1) are same, odd check operator,then we do cnt++, or directly adding gives same result
+        n=n>>1;                 //same as n=n/2;
+        //or                    n=n&(n-1); cnt++;
+    }
+    return cnt;
+}
+int main()
+{
+    int n;
+    cin >> n;
+    int a=countSetBits(n);
+    cout<< a;
+    return 0;
+}

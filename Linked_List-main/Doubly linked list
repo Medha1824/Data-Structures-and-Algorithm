@@ -1,0 +1,393 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* prev;
+    node* next;
+};
+node* root=NULL;
+node* tail=NULL;
+
+//1
+void insertFirst(int val){
+    node* temp=new node();
+    temp->data=val;
+    temp->prev=NULL;
+    if(root==NULL && tail==NULL){
+        temp->next=NULL;
+        root=temp;
+        tail=temp;
+    }
+    else{
+        temp->next=root;
+        root->prev=temp;
+        root=temp;
+    }
+}
+//2
+void insertLast(int val){
+    node* temp=new node();
+    temp->data=val;
+    temp->next=NULL;
+    if(root==NULL){
+        temp->prev=NULL;
+        root=temp;
+        tail=temp;
+    }
+    else{
+        temp->prev=tail;
+        tail->next=temp;
+        tail=temp;
+    }
+}
+//3-a
+void insertMiddleByValue(int val){
+    node* temp=new node();
+    temp->data=val;
+    if(root==NULL && tail==NULL){
+        temp->next=NULL;
+        temp->prev=NULL;
+        root=temp;
+        tail=temp;
+    }
+    else if(val< root->data){
+        temp->next=root;
+        temp->prev=NULL;
+        root->prev=temp;
+        root=temp;
+    }
+    else{
+        node *ptr=root;
+        while(ptr->next !=NULL && val > ptr->next->data)
+            ptr=ptr->next;
+        temp->next=ptr->next;
+        temp->prev=ptr;
+        if(ptr->next!=NULL)
+            ptr->next->prev=temp;
+        else{
+            tail=temp;
+        }
+        ptr->next=temp;
+    }
+}
+//3-b
+void insertMiddleByPosition(int val,int pos){
+    if(pos<=0){
+            cout<<"Invalid position"<<endl;
+            return;
+    }
+    else if(pos==1){
+        node* temp=new node();
+        temp->data=val;
+        if(root==NULL && tail==NULL){
+        temp->next=NULL;
+        temp->prev=NULL;
+        root=temp;
+        tail=temp;
+    }
+    else {
+        temp->next=root;
+        temp->prev=NULL;
+        root->prev=temp;
+        root=temp;
+    }
+    }
+    else{
+        node *ptr=root;
+        int place=1;
+        while(place<pos-1 && ptr!=NULL ){
+            ptr=ptr->next;
+            place++;
+        }
+        if(ptr==NULL)
+            cout<<"Invalid position"<<endl;
+        else{
+            node* temp=new node();
+            temp->data=val;
+            temp->next=ptr->next;
+            temp->prev=ptr;
+            if(ptr->next!=NULL)
+                ptr->next->prev=temp;
+            else{
+                tail=temp;
+            }
+            ptr->next=temp;
+        }
+    }
+}
+//4
+void deleteFirst(){
+    if(root==NULL)
+        cout<<"List is empty"<<endl;
+    else if(root->next==NULL){
+            root=NULL;
+            tail=NULL;
+        }
+    else{
+        root=root->next;
+        root->prev=NULL;
+    }
+    cout << "Deletion completed"<<endl;
+}
+//5
+void  deleteLast(){
+    if(root==NULL)
+        cout<<"List is empty"<<endl;
+    else if(root->next==NULL){
+            root=NULL;
+            tail=NULL;
+        }
+    else{
+        tail=tail->prev;
+        tail->next=NULL;
+    }
+    cout << "Deletion completed"<<endl;
+}
+//6-a
+void deleteMiddleByValue(int val){
+    if(root==NULL)
+        cout<<"List is empty"<<endl;
+    else if(val==root->data){
+         if(root->next==NULL){
+            root=NULL;
+            tail=NULL;
+        }
+        else{
+            root=root->next;
+            root->prev=NULL;
+        }
+    }
+    else{
+        node *ptr=root;
+        while(ptr->next !=NULL && val != ptr->next->data)
+            ptr=ptr->next;
+        if(ptr->next==NULL)
+            cout<<"Invalid Value"<<endl;
+        else{
+            node *ptr1=ptr->next;
+            ptr->next=ptr1->next;
+            if(ptr->next!=NULL)
+                ptr1->next->prev=ptr;
+            else{
+                tail=ptr;
+            }
+            cout << "Deletion completed"<<endl;
+        }
+    }
+}
+//6-b
+void deleteMiddleByPosition(int pos){
+    if(root==NULL)
+        cout<<"List is empty"<<endl;
+    else if(pos==1){
+         if(root->next==NULL){
+            root=NULL;
+            tail=NULL;
+        }
+        else{
+            root=root->next;
+            root->prev=NULL;
+        }
+    }
+    else{
+        node *ptr=root;
+        for(int i=1; i<pos-1 && ptr->next !=NULL; i++)
+            ptr=ptr->next;
+        if(ptr->next==NULL)
+            cout<<"Invalid position"<<endl;
+        else{
+            node *ptr1=ptr->next;
+            ptr->next=ptr1->next;
+            if(ptr->next!=NULL)
+                ptr1->next->prev=ptr;
+            else{
+                tail=ptr;
+            }
+            cout << "Deletion completed"<<endl;
+        }
+    }
+}
+//7-a
+void printingF(){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+    else{
+        node* ptr;
+            ptr=root;
+        while(ptr!=NULL){
+            cout<<ptr->data<<" ";
+    ptr=ptr->next;
+        }
+        cout<<endl;
+    }
+}
+//7-b
+void printingB(){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+    else{
+        node* ptr;
+            ptr=tail;
+        while(ptr!=NULL){
+            cout<<ptr->data<<" ";
+    ptr=ptr->prev;
+        }
+        cout<<endl;
+    }
+}
+//8
+void searching(int val){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+    else{
+        node* ptr;
+            ptr=root;
+        while(ptr!=NULL){
+            if(ptr->data ==val){
+                cout<<"found"<<endl;
+                return;
+            }
+            ptr=ptr->next;
+        }
+        cout<<"NOT found"<<endl;
+    }
+}
+//9
+void printLast(){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+        else{
+            cout<<tail->data<<endl;
+        }
+}
+//10
+void printSecLast(){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+        else if(root->next==NULL)
+            cout<<"list's size is 1"<<endl;
+        else{
+            cout<<tail->prev->data<<endl;
+        }
+}
+//11
+void listSize(){
+    int cnt=0;
+    node* ptr = root;
+    while(ptr != NULL){
+        cnt++;
+        ptr = ptr->next;
+    }
+        cout<<cnt<<endl;
+}
+//12
+void reversePrint(){
+    if(root == NULL)
+        cout<<"list is empty"<<endl;
+    else{
+        node* ptr;
+            ptr=tail;
+        while(ptr!=NULL){
+            cout<<ptr->data<<" ";
+    ptr=ptr->prev;
+        }
+        cout<<endl;
+    }
+}
+
+int main()
+{
+    int i,val,pos;
+    cout << "0. Exit\n";
+    cout << "1. Insert value at First\n";
+    cout << "2. Insert value at Last\n";
+    cout << "3. Insert value by Position\n";
+    cout << "4. Insert by Value\n";
+    cout << "5. Delete value at First\n";
+    cout << "6. Delete value at Last\n";
+    cout << "7. Delete value by Position\n";
+    cout << "8. Delete by Value\n";
+    cout << "9. Print the list\n";
+    cout << "10. Search a value\n";
+    cout << "11. Print the value of last node\n";
+    cout << "12. Print the previous value of last node\n";
+    cout << "13. Print the size of the List\n";
+    cout << "14. Reverse Print\n";
+    while(1){
+        cout<<"Enter your choice: ";
+        cin>>i;
+
+        if(i==0){
+            cout<<"Exiting the program......";
+            return 0;
+        }
+        else if(i==1){
+            cout << "Enter the value to insert at first: ";
+            cin >> val;
+            insertFirst(val);
+        }
+        else if(i==2){
+            cout << "Enter the value to insert at last: ";
+            cin >> val;
+            insertLast(val);
+
+        }
+        else if(i==3){
+            cout << "Enter the value and the position to insert: ";
+            cin >> val >> pos;
+            insertMiddleByPosition(val,pos);
+        }
+        else if(i==4){
+            cout << "Enter the value to insert: ";
+            cin >> val;
+            insertMiddleByValue(val);
+        }
+        else if(i==5){
+            deleteFirst();
+        }
+        else if(i==6){
+            deleteLast();
+        }
+        else if(i==7){
+            cout << "Enter the position to delete node: ";
+            cin >> pos;
+            deleteMiddleByPosition(pos);
+        }
+        else if(i==8){
+            cout << "Enter the value of node to delete: ";
+            cin >> val;
+            deleteMiddleByValue(val);
+        }
+        else if(i==9){
+            cout<<"The list: ";
+            printingF();
+        }
+        else if(i==10){
+            cout << "Enter value to search: ";
+            cin >> val;
+            searching(val);
+        }
+        else if(i==11){
+            cout<<"The last node: ";
+            printLast();
+        }
+        else if(i==12){
+            cout<<"The second last node: ";
+            printSecLast();
+        }
+        else if(i==13){
+            cout<<"The list size: ";
+            listSize();
+        }
+        else if(i==14){
+            cout<<"The reverse list: ";
+            reversePrint();
+        }
+        else{
+            cout<<"Invalid choice.....\nTry again....."<<endl;
+        }
+    }
+    return 0;
+}

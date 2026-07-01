@@ -1,0 +1,27 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+long long decimal2Binary(int n){
+    long long ans = 0;
+    int rem, i = 1;
+    while(n!=0){
+        rem = n % 2;
+        ans += rem*i;
+        i = i * 10;
+        n = n / 2;
+    }
+    return ans;
+}
+int main()
+{
+    int n,i;
+    cin >> n >> i;
+    int a=decimal2Binary(n);
+    cout<< a<< endl;
+    if(((a>>i)&1)==0)                                                         //if((a&(1<<i))==0)
+       cout<< "The " <<i<< "th bit of " << n << " is not set" << endl;
+    else
+    cout<< "The " <<i<< "th bit of " << n << " is set" << endl;
+    return 0;
+}
