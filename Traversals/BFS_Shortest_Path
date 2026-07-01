@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void BFS(vector<int>V[],vector<int>&visited ,int a,vector<int>&dist, vector<int>&parent){
+    queue<int> q;
+    visited[a]=1;
+    dist[a]=0;
+    parent[a]=-1;
+    q.push(a);
+    while(!q.empty()){
+        int x= q.front();
+        q.pop();
+        cout<< x <<" ";
+        for(int i: V[x]){
+            if(!visited[i]){
+                visited[i]=1;
+                dist[i]=1+dist[x];
+                parent[i]=x;
+                q.push(i);
+            }
+        }
+    }
+}
+int main(){
+    int n,e;
+    cout<<"Enter number of nodes: ";
+    cin>>n;
+    cout<<"Enter number of edges: ";
+    cin>>e;
+    cout<<"Enter connections in the graph: ";
+    vector<int>V[n+1];
+    vector<int>visited(n+1,0);   
+    for(int i=0;i<e;i++){
+        int nodeA,nodeB;
+        cin>>nodeA>>nodeB;
+        V[nodeA].push_back(nodeB);
+        V[nodeB].push_back(nodeA);
+    }
+    cout<<"Enter source: ";
+    int a;
+    cin>>a;
+    vector<int>dist(n+1,-1);
+    vector<int>parent(n+1,-1);
+    //BFS_Traversal(V, n, a);
+    BFS(V,visited,a,dist,parent);
+    for(int i=1;i<=n;i++){
+        cout<<"Node: "<<i<<": ";
+        cout<<"Distance: "<<dist[i]<<" Path: ";
+        vector<int>path;
+        for(int x=i;x!=-1;x=parent[x]){
+            path.push_back(x);
+        }
+        reverse(path.begin(),path.end());
+        for(int node:path)
+            cout<<node<<" ";
+        cout<<endl;
+    }
+}

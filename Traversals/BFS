@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void BFS(vector<int>V[],vector<int>&visited ,int a){
+    queue<int> q;
+    visited[a]=1;
+    q.push(a);
+    while(!q.empty()){
+        int x= q.front();
+        q.pop();
+        cout<< x <<" ";
+        for(int i: V[x]){
+            if(!visited[i]){
+                visited[i]=1;
+                q.push(i);
+            }
+        }
+    }
+}
+void BFS_Traversal(vector<int> V[], int n, int a){
+    vector<int>visited(n+1,0);
+    cout<<"Visit order: ";
+    BFS(V,visited,a);
+    for(int i = 1; i <= n; i++){
+        if(!visited[i]){
+            cout<<endl;
+            BFS(V, visited, i);
+        }           
+    }
+}
+int main(){
+    int n,e;
+    cout<<"Enter number of nodes: ";
+    cin>>n;
+    cout<<"Enter number of edges: ";
+    cin>>e;
+    cout<<"Enter connections in the graph: ";
+    vector<int>V[n+1];   
+    for(int i=0;i<e;i++){
+        int nodeA,nodeB;
+        cin>>nodeA>>nodeB;
+        V[nodeA].push_back(nodeB);
+        V[nodeB].push_back(nodeA);
+    }
+    cout<<"Enter source: ";
+    int a;
+    cin>>a;
+    BFS_Traversal(V, n, a);
+}
